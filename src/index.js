@@ -4,6 +4,8 @@ import winston from 'winston';
 
 import * as safejs from 'safe-js';
 
+import fsp from 'fs-promise';
+
 // Testing of Safejs against the real launcher.
 const app =
 {
@@ -58,28 +60,41 @@ const getFileTarget = ( filePath ) =>
     return cleanTargetDir + fileName ;
 }
 
-// TODO
-// Parse all path to strip out the non drive section, and use the rest as drive
 
+async function addFile( filePath )
+{
+    log('File', filePath, 'has been added');
+
+    let target = getFileTarget( filePath );
+    let fileContents = await fsp.readFile( filePath );
+
+    winston.info( '====>', target  );
+
+    safejs.nfs.createFile( token, target, fileContents )
+        .then( response =>
+        {
+            winston.log( "creating file", response );
+        })
+        .catch( err => winston.error( err.description ) );
+}
+
+async function createOrUpdate( filePath )
+{
+    log('File', filePath, 'has been changed');
+    let target = getFileTarget( filePath );
+    let fileContents = await fsp.readFile( filePath );
+
+    safejs.nfs.createOrUpdateFile( token, target, fileContents )
+        .then( response =>
+        {
+            console.log( "createOrUpdateFile existing file:", response );
+
+            return response;
+        });
+}
 
 watcher
-    .on('add', (filePath) =>
-    {
-        log('File', filePath, 'has been added');
-
-        let target = getFileTarget( filePath );
-
-        // use await on file read....
-
-        winston.info( '====>', target  );
-
-        safejs.nfs.createFile( token, target, 'nonsense data' )
-            .then( response =>
-            {
-                winston.log( "creating file", response );
-            })
-            .catch( err => winston.error( err.description ) );
-    })
+    .on('add', addFile )
     .on('addDir', (filePath) =>
     {
         let target = getFileTarget( filePath );
@@ -92,19 +107,7 @@ watcher
                 winston.log( "createDir", response );
             });
     })
-    .on('change', (filePath) =>
-    {
-        log('File', filePath, 'has been changed');
-        let target = getFileTarget( filePath );
-
-        safejs.nfs.createOrUpdateFile( token, target, 'thisisupdatedContent' )
-            .then( response =>
-            {
-                console.log( "createOrUpdateFile existing file:", response );
-
-                return response;
-            });
-    })
+    .on('change', createOrUpdate )
     .on('unlink', (filePath) =>
     {
         log('File', filePath, 'has been removed');

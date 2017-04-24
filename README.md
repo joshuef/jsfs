@@ -2,7 +2,7 @@
 
 JS File Sync.
 
-Currently POC. 
+Currently POC. Only PUTs data, and probably not reliably.
 
 ## Install
 
@@ -11,6 +11,7 @@ Clone the repo &: `yarn`.
 Make a directory in the repo called `safeDrive`.
 
 `yarn start` to run sync on this newly created folder.
+
 
 ## Caveats
 
@@ -22,11 +23,7 @@ Theoretically it should be cross platform. YMMV.
 
 ## Like this?
 
-Encourage more of this sort of thing:
-
-BTC/MAID donations so welcome:
-
-1EmSUthDxBDfyJz1uXwpJtiVRpsgEWyzxB
+Buy me some beer or a laptop or a house. (BTC/MAID donations so welcome: 1EmSUthDxBDfyJz1uXwpJtiVRpsgEWyzxB)
 
 ## License. 
 
