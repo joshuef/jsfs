@@ -1,0 +1,26 @@
+{
+  "name": "JSFS",
+  "version": "0.0.1",
+  "description": "NodeJS Filesystem Watch Bindings For SAFE",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r babel-register src/index.js "
+  },
+  "repository": {},
+  "author": "Josh Wilson <joshuef@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^1.6.1",
+    "pm2": "^2.4.5",
+    "safe-js": "^0.3.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.4.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "winston": "^2.3.1"
+  }
+}
